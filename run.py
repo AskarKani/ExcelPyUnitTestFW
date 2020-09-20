@@ -1,33 +1,29 @@
-import argparse
+#! /usr/bin/python3
+
 import os
 import sys
+import magic
 from mytest import mytest
-
+import mimetypes
 
 
 if __name__ == '__main__':
-    des = "!........................! Python Unit Test !........................!\n " \
-          "\rpython3 run.py -I <include files path> -F <cpp files or function definition> -flags <flags to compile>"
-    parser = argparse.ArgumentParser(description=des, formatter_class=argparse.RawTextHelpFormatter)
-    parser.add_argument('-I', nargs='+', type=str, help='pass the include files as list')
-    parser.add_argument('-F', nargs='+', type=str, help='pass the function files as list')
-    parser.add_argument('-N', nargs='+', type=str, help='pass the function names as list')
-    # parser.add_argument('-flags', nargs='+', type=str, help='pass the flags for compiling as list if any')
-    arg = parser.parse_args()
+    des = "!........................! C++ Unit Test !........................!\n " \
+          "\rpython3 run.py <excel_sheet_path>"
+    print(des)
+    if len(sys.argv) < 2:
+        print("ERROR: Test cases excel sheet path is missing.\nPass the path as argument")
+        exit(1)
+    elif len(sys.argv) > 2:
+        print("ERROR: Length of arguments are grater than two")
+        exit(1)
 
-    if not arg.I or not arg.F or not arg.N:
-        print("Pass the include files, function definition and paths with respective arguments...")
-        print(parser.print_help())
-        sys.exit(1)
+    test_case_excel = sys.argv[1]
 
-    for _ in [arg.I, arg.F]:
-        for file in _:
-            if not os.path.isfile(file):
-                print(f"The {file} path is incorrect")
-                sys.exit(1)
+    if not os.path.isfile(test_case_excel):
+        print(f"{test_case_excel} path is invalid ...")
+        exit(1)
 
-    test = mytest()
-    for include, file in zip(arg.I, arg.F):
-        test.compile(include, file)
-    for function in arg.N:
-        test.test(function)
+    test = mytest(test_case_excel)
+    test.test()
+
