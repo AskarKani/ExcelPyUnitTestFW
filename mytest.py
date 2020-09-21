@@ -36,14 +36,13 @@ class mytest:
         self.func_file = self.sheet['B2'].value
         self.check_path("$FUNC_FILE", self.func_file)
         self.include_path_gcc = self.sheet['B3'].value
-        if not self.include_path_gcc:
-            self.include_path_gcc = ""
         self.flags_gcc = self.sheet['B4'].value
         if not self.flags_gcc:
             self.flags_gcc = ""
         self.func_name = self.sheet['B5'].value
         if not self.func_name:
             print(f"enter func_name..")
+            exit(1)
 
     # g++ -fpic -c add.cpp
     # g++ -shared -o libadd.so add.o
@@ -52,10 +51,18 @@ class mytest:
         out_cpp_path = self.unit_test_out / file_cpp_name
         lib_name = "lib" + file_cpp_name + ".so"
         lib_out_path = self.unit_test_out / lib_name
-        self.terminal_exec(f"g++ -fpic -c {self.func_file} -o {out_cpp_path} {self.flags_gcc}")
-        self.terminal_exec(f"g++ -shared -o {lib_out_path} {out_cpp_path} {self.flags_gcc}")
+        if self.include_path_gcc:
+            self.terminal_exec(f"g++ -fpic -c {self.func_file} -o {out_cpp_path} {self.flags_gcc} -I {self.include_path_gcc}")
+            self.terminal_exec(f"g++ -shared -o {lib_out_path} {out_cpp_path} {self.flags_gcc} -I {self.include_path_gcc}")
+        else:
+            self.terminal_exec(f"g++ -fpic -c {self.func_file} -o {out_cpp_path} {self.flags_gcc}")
+            self.terminal_exec(f"g++ -shared -o {lib_out_path} {out_cpp_path} {self.flags_gcc}")
         self.my_cppyy.include(self.include_file)
-        self.my_cppyy.load_library(str(lib_out_path))
+        try:
+            self.my_cppyy.load_library(str(lib_out_path))
+        except RuntimeError:
+            print("ERROR : Library path is missing or error in compilation..")
+            exit(1)
 
     def clean(self):
         if os.path.isdir(self.unit_test_out):
@@ -114,3 +121,4 @@ class mytest:
         print(f"Total FAIL : {fail_count}")
         print()
         self.clean()
+        

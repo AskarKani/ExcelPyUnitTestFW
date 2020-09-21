@@ -2,9 +2,7 @@
 
 import os
 import sys
-import magic
 from mytest import mytest
-import mimetypes
 
 
 if __name__ == '__main__':
