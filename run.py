@@ -2,7 +2,7 @@
 
 import os
 import sys
-from mytest import mytest
+from mytest import Mytest
 
 
 if __name__ == '__main__':
@@ -22,6 +22,6 @@ if __name__ == '__main__':
         print(f"{test_case_excel} path is invalid ...")
         exit(1)
 
-    test = mytest(test_case_excel)
+    test = Mytest(test_case_excel)
     test.test()
 
