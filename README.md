@@ -1,6 +1,6 @@
-# ExcelPyUnittestFW
+# ExcelPyUnitTestFW
 
-ExcelPyUnittestFW is a python based tesing framework which tests the cpp function by the test cases written in excel sheet and update the result in the same excel sheet
+ExcelPyUnittestFW is a python based tesing framework which tests the cpp function with the test cases written in excel sheet and update the result in the same excel sheet
 
 ## Usage
 
