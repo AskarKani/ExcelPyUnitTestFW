@@ -1,6 +1,6 @@
-# unit_test_cpp
+# ExcelPyUnittestFW
 
-Unit Test CPP is a tesing framework which tests the cpp function by the test cases written in excel sheet and update the result in the same excel sheet
+ExcelPyUnittestFW is a python based tesing framework which tests the cpp function by the test cases written in excel sheet and update the result in the same excel sheet
 
 ## Usage
 '''
